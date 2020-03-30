@@ -6,6 +6,7 @@ set textwidth=100   " Line wrap (number of cols)
 set showmatch	    " Highlight matching brace
 set spell	    " Enable spell-checking
 "set visualbell	    " Use visual bell (no beeping)
+set noerrorbells
 
 set hlsearch	    " Highlight all search results
 set smartcase	    " Enable smart-case search
@@ -24,8 +25,13 @@ set ruler	                " Show row and column ruler information
 set autochdir	                " Change working directory to open buffer
 set undolevels=1000	        " Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
+set encoding=UTF-8
 
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " VUNDLE
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 set nocompatible              " be iMproved, required
 filetype off                  " required
 
@@ -39,6 +45,14 @@ call vundle#begin()
 Plugin 'VundleVim/Vundle.vim'
 Plugin 'sonph/onehalf', {'rtp': 'vim/'}
 Plugin 'itchyny/lightline.vim'    
+Plugin 'jreybert/vimagit'
+Plugin 'scrooloose/nerdtree'
+Plugin 'tiagofumo/vim-nerdtree-syntax-highlight'
+Plugin 'jceb/vim-orgmode'
+Plugin 'ryanoasis/vim-devicons'
+Plugin 'mhinz/vim-startify'
+Plugin 'sophacles/vim-processing'
+Plugin 'itchyny/vim-gitbranch'
 
 " All of your Plugins must be added before the following line
 call vundle#end()            " required
@@ -55,32 +69,11 @@ filetype plugin indent on    " required
 " see :h vundle for more details or wiki for FAQ
 " Put your non-Plugin stuff after this line
  
-" PLUGINS
-" Specify a directory for plugins
-" - For Neovim: stdpath('data') . '/plugged'
-" - Avoid using standard Vim directory names like 'plugin'
-call plug#begin('~/.vim/plugged')
 
-Plug 'tpope/vim-surround'  "surround.vim: quoting/parenthesizing made simple
-Plug 'scrooloose/nerdtree'
-"Plug 'rakr/vim-one'
-Plug 'arcticicestudio/nord-vim'
-Plug 'majutsushi/tagbar'
-"Plug 'vim-airline/vim-airline'
-"Plug 'vim-airline/vim-airline-themes'
-"Plug 'itchyny/lightline.vim'
-Plug 'scrooloose/syntastic'
-Plug 'altercation/vim-colors-solarized'
-Plug 'dracula/vim', { 'as': 'dracula' }
-
-" Initialize plugin system
-call plug#end()
-
-
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Color scheme and GUI
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 syntax on
-set t_Co=256
-"colorscheme nord
 if exists('+termguicolors')
     let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
@@ -88,15 +81,12 @@ if exists('+termguicolors')
 endif
 
 colorscheme onehalfdark
-"let g:airline_theme='onehalfdark'
-"set background=dark
-"let g:lightline.colorscheme='onehalfdark'
-":colorscheme dracula
-let g:lightline = {
-      \ 'colorscheme': 'onehalfdark',
-      \ }
 
-" Mouse
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Mouse and clipboard
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
 if has('mouse')
     set mouse=a
 endif
@@ -107,9 +97,62 @@ if has("macunix")
 elseif has("unix")
     set clipboard=unnamedplus
 endif
-:imap ii <Esc>
 
 
-set relativenumber
+
+
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Powerline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:lightline = {
+      \ 'colorscheme': 'onehalfdark',
+      \ 'active': {
+      \   'left': [ [ 'mode', 'paste' ],
+      \             [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
+      \ },
+      \ 'component_function': {
+      \   'gitbranch': 'gitbranch#name'
+      \ },
+      \ }
+      
+      
+" Always show statusline
 set laststatus=2
-"let g:lightline = { 'colorscheme': 'darcula' }
+
+" Use 256 colours (Use this setting only if your terminal supports 256 colours)
+set t_Co=256
+
+syntax enable   
+set relativenumber
+let g:rehash256 = 1
+
+" Uncomment to prevent non-normal modes showing in powerline and below powerline.
+set noshowmode
+
+" hitting jj will jump out of insert mode
+inoremap jj <esc>
+
+" Make j and k work normally for soft wrapped lines
+noremap <buffer> j gj
+noremap <buffer> k gk
+
+
+"""""""""""""""""""""""""""""""""""""""""
+" Tabs 
+"""""""""""""""""""""""""""""""""""""""""
+noremap <C-H> :tabp<CR>
+noremap <C-L> :tabn<CR>
+noremap <C-J> :tabc<CR>
+noremap <C-K> :tabe <Bar> Startify<CR>
+
+""""""""""""""""""""""""""""""""""""""""
+" Processing 
+" """"""""""""""""""""""""""""""""""""""
+:let g:processing_fold = 1
+
+
+set guifont=IBM\ Plex\ Mono\ 25
+"set guifont=JetBrains\ Mono\ 25
+"set guifont=DroidSansMono\ Nerd\ Font\ 20
+
