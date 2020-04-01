@@ -35,7 +35,7 @@ set encoding=UTF-8
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug
-"""""""""""""""""""""""""""""""""""""""""""""""""""""
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Install PLug if not present on the system
 if empty(glob("~/.vim/autoload/plug.vim"))
     execute '!curl -fLo ~/.vim/autoload/plug.vim https://raw.github.com/junegunn/vim-plug/master/plug.vim'
@@ -49,28 +49,51 @@ call plug#begin('~/.vim/plugged')
 
 " Theme
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
-" The powerline and the name of the branch for GIT to display in the powerline
+
+" The lightline and the name of the branch for GIT to display in it
 Plug 'itchyny/lightline.vim'    
 Plug 'itchyny/vim-gitbranch'
-"Plug 'jreybert/vimagit'
+
 " NERDtree
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-" Org-mode support
-Plug 'jceb/vim-orgmode'
+
+" Icons sets for NERDtree
 Plug 'ryanoasis/vim-devicons'
+
+" Org-mode support
+"Plug 'jceb/vim-orgmode'
+
 " Start page
 Plug 'mhinz/vim-startify'
+
 " Add Processing support
 Plug 'sophacles/vim-processing'
+
 " Creating comments
 Plug 'scrooloose/nerdcommenter'
-Plug 'haya14busa/is.vim'
+
 " Modify * to also work with visual selections.
 Plug 'nelstrom/vim-visual-star-search'
+" Clear highlights selection
+Plug 'haya14busa/is.vim'
+
 " FZF
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
+
+" CSS clors
+Plug 'ap/vim-css-color'
+
+" Syntax
+Plug 'scrooloose/syntastic'
+
+" Coloring parenthesis
+Plug 'kien/rainbow_parentheses.vim'
+
+" Undo visual tree
+Plug 'sjl/gundo.vim'
+
 " Initialize plugin system
 call plug#end()
 
@@ -111,7 +134,7 @@ endif
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Powerline
+" Lightline 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:lightline = {
       \ 'colorscheme': 'onehalfdark',
@@ -218,3 +241,37 @@ nnoremap <silent> <Leader>l :Lines<CR>
 " Allow passing optional flags into the Rg command.
 "   Example: :Rg myterm -g '*.md'
 command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-heading --color=always --smart-case " . <q-args>, 1, <bang>0)
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntax
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set statusline+=%#warningmsg#
+set statusline+=%{SyntasticStatuslineFlag()}
+set statusline+=%*
+
+let g:syntastic_always_populate_loc_list = 1
+let g:syntastic_auto_loc_list = 1
+let g:syntastic_check_on_open = 1
+let g:syntastic_check_on_wq = 0
+
+" Rainbow parenthesis defaults
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
+
+""""""""""""""""""""""""""""""""
+" Comments
+""""""""""""""""""""""""""""""""
+nmap <C-_>   <Plug>NERDCommenterToggle
+vmap <C-_>   <Plug>NERDCommenterToggle<CR>gv
+
+""""""""""""""""""""""""""""""""
+" Undo
+""""""""""""""""""""""""""""""""
+if has('python3')
+    let g:gundo_prefer_python3 = 1          " anything else breaks on Ubuntu 16.04+
+endif
+nnoremap <F5> :GundoToggle<CR>
+
