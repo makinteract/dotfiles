@@ -94,6 +94,11 @@ Plug 'kien/rainbow_parentheses.vim'
 " Undo visual tree
 Plug 'sjl/gundo.vim'
 
+" Autocmplete
+Plug 'valloric/youcompleteme'
+
+" Change the font size <Leader><Leader> and the + or - multiple times
+Plug 'drmikehenry/vim-fontsize'
 " Initialize plugin system
 call plug#end()
 
@@ -172,20 +177,31 @@ noremap <buffer> k gk
 """""""""""""""""""""""""""""""""""""""""
 " Tabs 
 """""""""""""""""""""""""""""""""""""""""
-noremap <C-H> :tabp<CR>
-noremap <C-L> :tabn<CR>
-noremap <C-J> :tabc<CR>
-noremap <C-K> :tabe <Bar> Startify<CR>
+" Ctrl+T + n(new) | + c (close) + Ctrl-T (next tab)
+"noremap <C-T>n :tabe <Bar> Startify<CR>
+"noremap <C-T>c :tabc<CR>
+"noremap <C-T><C-T> :tabn<CR>
+""noremap <C-L> :tabn<CR>
+
+:nmap <C-t> :tabnew<cr>
+:nmap <C-tab> :tabnext<cr>
+:nmap <C-S-tab> :tabprevious<cr>
+
+:map <C-t> :tabnew<cr>
+:map <C-S-tab> :tabprevious<cr>
+:map <C-tab> :tabnext<cr>
+:map <C-w> :tabclose<cr>
+
+:imap <C-S-tab> <ESC>:tabprevious<cr>i
+:imap <C-tab> <ESC>:tabnext<cr>i
+:imap <C-t> <ESC>:tabnew<cr>
+
 
 """"""""""""""""""""""""""""""""""""""""
 " Processing 
 " """"""""""""""""""""""""""""""""""""""
 :let g:processing_fold = 1
 
-
-set guifont=IBM\ Plex\ Mono\ 25
-"set guifont=JetBrains\ Mono\ 25
-"set guifont=DroidSansMono\ Nerd\ Font\ 20
 
 """""""""""""""""""""""""""""""""""""""
 " NERDtree
@@ -213,6 +229,7 @@ nnoremap <Leader>rc :%s///gc<Left><Left><Left>
 xnoremap <Leader>r :s///g<Left><Left>
 xnoremap <Leader>rc :s///gc<Left><Left><Left>
 
+
 " Type a replacement term and press . to repeat the replacement again. Useful
 " for replacing a few instances of the term (comparable to multiple cursors).
 nnoremap <silent> s* :let @/='\<'.expand('<cword>').'\>'<CR>cgn
@@ -232,7 +249,8 @@ let g:fzf_action = {
   \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
 
 " Launch fzf with CTRL+P.
-nnoremap <silent> <C-p> :FZF -m<CR>
+nnoremap <silent> <C-p> :FZF -m ./ <CR>
+let $FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 
 " Map a few common things to do with FZF.
 nnoremap <silent> <Leader>b :Buffers<CR>
@@ -253,6 +271,10 @@ let g:syntastic_always_populate_loc_list = 1
 let g:syntastic_auto_loc_list = 1
 let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
+let g:syntastic_quiet_messages = { "type": "style"}
+
+let g:syntastic_quiet_messages = { "level": "warnings" }
+"let g:syntastic_python_pylint_quiet_messages = { "level" : [] }
 
 " Rainbow parenthesis defaults
 au VimEnter * RainbowParenthesesToggle
@@ -275,3 +297,41 @@ if has('python3')
 endif
 nnoremap <F5> :GundoToggle<CR>
 
+
+"""""""""""""""""""""""""""""""""""""""""
+" Selection
+"""""""""""""""""""""""""""""""""""""""""
+" CTRL+L to deselect selection
+nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
+
+
+
+" gVIM
+set guioptions -=m
+set guioptions -=T
+
+"set guifont=IBM\ Plex\ Mono\ 25
+"set guifont=DroidSansMono\ Nerd\ Font\ 20
+"set guifont=JetBrains\ Mono\ 25
+set guifont=DejaVu\ Sans\ Mono\ 21
+
+
+" Toggle spell check.
+map <F6> :setlocal spell!<CR>
+" Toggle relative line number
+nmap <F5> :set invrelativenumber<CR>
+
+" Edit Vim config file in a new tab.
+map <Leader>ev :tabnew $MYVIMRC<CR>
+
+" -----------------------------------------------------------------------------
+" Basic mappings
+" -----------------------------------------------------------------------------
+
+" Seamlessly treat visual lines as actual lines when moving around.
+noremap j gj
+noremap k gk
+noremap <Down> gj
+noremap <Up> gk
+inoremap <Down> <C-o>gj
+inoremap <Up> <C-o>gk
