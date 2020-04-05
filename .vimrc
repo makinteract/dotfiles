@@ -8,7 +8,7 @@ set textwidth=0
 set wrapmargin=0
 
 set showmatch	    " Highlight matching brace
-set spell	    " Enable spell-checking
+"set spell	    " Enable spell-checking
 "set visualbell	    " Use visual bell (no beeping)
 set noerrorbells
 
@@ -30,8 +30,7 @@ set ruler	                " Show row and column ruler information
 set autochdir	                " Change working directory to open buffer
 set undolevels=1000	        " Number of undo levels
 set backspace=indent,eol,start	" Backspace behaviour
-set encoding=UTF-8
-
+set encoding=UTF-8              " Necessary to show Unicode glyphs
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Plug
@@ -50,6 +49,20 @@ call plug#begin('~/.vim/plugged')
 " Theme
 Plug 'sonph/onehalf', {'rtp': 'vim/'}
 
+" Multi language suppor
+Plug 'sheerun/vim-polyglot'
+Plug 'pangloss/vim-javascript'
+Plug 'elzr/vim-json'
+
+" Prettify - <Leader>p
+Plug 'prettier/vim-prettier', {
+  \ 'do': 'npm install',
+  \ 'branch': 'release/0.x'
+  \ }
+
+" SuperTab
+Plug 'ervandew/supertab'
+
 " The lightline and the name of the branch for GIT to display in it
 Plug 'itchyny/lightline.vim'    
 Plug 'itchyny/vim-gitbranch'
@@ -57,9 +70,6 @@ Plug 'itchyny/vim-gitbranch'
 " NERDtree
 Plug 'scrooloose/nerdtree'
 Plug 'tiagofumo/vim-nerdtree-syntax-highlight'
-
-" Icons sets for NERDtree
-Plug 'ryanoasis/vim-devicons'
 
 " Org-mode support
 "Plug 'jceb/vim-orgmode'
@@ -82,7 +92,10 @@ Plug 'haya14busa/is.vim'
 Plug '~/.fzf'
 Plug 'junegunn/fzf.vim'
 
-" CSS clors
+" CTRLSF
+ Plug 'dyng/ctrlsf.vim'
+
+" CSS colors
 Plug 'ap/vim-css-color'
 
 " Syntax
@@ -97,8 +110,13 @@ Plug 'sjl/gundo.vim'
 " Autocmplete
 Plug 'valloric/youcompleteme'
 
+" Icons sets for NERDtree
+Plug 'ryanoasis/vim-devicons'
+
 " Change the font size <Leader><Leader> and the + or - multiple times
 Plug 'drmikehenry/vim-fontsize'
+
+
 " Initialize plugin system
 call plug#end()
 
@@ -169,7 +187,8 @@ set noshowmode
 " hitting jj will jump out of insert mode
 inoremap jj <esc>
 
-" Make j and k work normally for soft wrapped lines
+
+" Allow navigation in sof-wrapped lines: make j and k work normally for soft wrapped lines
 noremap <buffer> j gj
 noremap <buffer> k gk
 
@@ -177,24 +196,19 @@ noremap <buffer> k gk
 """""""""""""""""""""""""""""""""""""""""
 " Tabs 
 """""""""""""""""""""""""""""""""""""""""
-" Ctrl+T + n(new) | + c (close) + Ctrl-T (next tab)
-"noremap <C-T>n :tabe <Bar> Startify<CR>
-"noremap <C-T>c :tabc<CR>
-"noremap <C-T><C-T> :tabn<CR>
-""noremap <C-L> :tabn<CR>
+" Ctrl+T + n(new) | + c (close) | + Ctrl-t (next tab)
+noremap <C-T>s :tabe <Bar> Startify<CR>
+noremap <C-T>n :tabnew<CR>
+noremap <C-T>q :tabc<CR>
+noremap <C-T><C-T> :tabnext<CR>
 
-:nmap <C-t> :tabnew<cr>
-:nmap <C-tab> :tabnext<cr>
-:nmap <C-S-tab> :tabprevious<cr>
-
-:map <C-t> :tabnew<cr>
-:map <C-S-tab> :tabprevious<cr>
-:map <C-tab> :tabnext<cr>
-:map <C-w> :tabclose<cr>
-
-:imap <C-S-tab> <ESC>:tabprevious<cr>i
-:imap <C-tab> <ESC>:tabnext<cr>i
-:imap <C-t> <ESC>:tabnew<cr>
+" Ctrl tab enabled in gVim
+:nmap <C-tab> :tabnext<CR>
+:nmap <C-S-tab> :tabprevious<CR>
+:map <C-S-tab> :tabprevious<CR>
+:map <C-tab> :tabnext<CR>
+:imap <C-tab> <ESC>:tabnext<CR>i
+:imap <C-S-tab> <ESC>:tabprevious<CR>i
 
 
 """"""""""""""""""""""""""""""""""""""""
@@ -248,8 +262,10 @@ let g:fzf_action = {
   \ 'ctrl-v': 'vsplit',
   \ 'ctrl-y': {lines -> setreg('*', join(lines, "\n"))}}
 
-" Launch fzf with CTRL+P.
+" Launch fzf with CTRL+P to search from current directory
+" Launch fzf with ALT+P to search from home directory
 nnoremap <silent> <C-p> :FZF -m ./ <CR>
+nnoremap <silent> <A-p> :FZF -m ~/ <CR>
 let $FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 
 " Map a few common things to do with FZF.
@@ -306,15 +322,13 @@ nnoremap <silent> <C-L> :nohlsearch<CR><C-L>
 
 
 
-" gVIM
+" gVIM remove toolbar and menu
 set guioptions -=m
 set guioptions -=T
 
-"set guifont=IBM\ Plex\ Mono\ 25
-"set guifont=DroidSansMono\ Nerd\ Font\ 20
-"set guifont=JetBrains\ Mono\ 25
-set guifont=DejaVu\ Sans\ Mono\ 21
-
+set guifont=BlexMono\ Nerd\ Font\ 21
+"set guifont=DejaVu\ Sans\ Mono\ 21
+"set guifont=DejaVuSansMono\ Nerd\ Font\ 18
 
 " Toggle spell check.
 map <F6> :setlocal spell!<CR>
@@ -335,3 +349,74 @@ noremap <Down> gj
 noremap <Up> gk
 inoremap <Down> <C-o>gj
 inoremap <Up> <C-o>gk
+
+
+
+" Fix common typos 
+ab teh the
+
+" Select and turn lowercase or uppercase
+command Uppercase s/\%V[a-z]/\U&/g 
+command Lowercase s/\%V[a-z]/\L&/g 
+
+" Move lines
+nnoremap <A-j> :m .+1<CR>==
+nnoremap <A-k> :m .-2<CR>==
+inoremap <A-j> <Esc>:m .+1<CR>==gi
+inoremap <A-k> <Esc>:m .-2<CR>==gi
+vnoremap <A-j> :m '>+1<CR>gv=gv
+vnoremap <A-k> :m '<-2<CR>gv=gv
+
+" Copy line with ctrol + up or down
+nnoremap <C-Down> :t .<CR>==
+nnoremap <C-Up> :t .-1<CR>==
+inoremap <C-j> <Esc>:t .<CR>==gi
+inoremap <C-k> <Esc>:t .-1<CR>==gi
+
+
+" Fixing the problem with ALT key
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "imap \e".c." <A-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
+
+set timeout ttimeoutlen=50
+
+
+" Cancel the other splits except the current one
+nnoremap <C-X>1 :only<CR>
+
+
+" Ctrl SF plugin
+nmap <leader>a <Plug>CtrlSFCwordPath -W<CR>
+nmap <leader>A :CtrlSF -R ""<Left>
+nmap <leader>c :CtrlSFFocus<CR>
+nmap <leader>C :CtrlSFToggle<CR>
+
+if has("macunix")
+  let g:ctrlsf_ackprg = '/usr/local/bin/rg'
+elseif has("unix")
+  let g:ctrlsf_ackprg = '/usr/bin/rg'
+endif
+
+let g:ctrlsf_winsize = '33%'
+let g:ctrlsf_auto_close = 0
+let g:ctrlsf_confirm_save = 0
+let g:ctrlsf_auto_focus = {
+    \ 'at': 'start',
+    \ }
+
+
+"Set the the file's directory as current directory
+nnoremap <leader><Space> :cd %:p:h
+
+
+
+
+" Tab menu expanded 
+set wildmenu                " Hitting TAB in command mode will
+set wildchar=<TAB>          "   show possible completions.
+set wildmode=list:longest
+set wildignore+=*.DS_STORE,*~:
