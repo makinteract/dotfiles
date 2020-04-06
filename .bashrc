@@ -134,9 +134,15 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
-# PROMPT
+# PROMPT for bash
 PS1='\u:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # FZF
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
+
+# clean
+alias clean='rm *~'
+
+
+
