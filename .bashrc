@@ -138,11 +138,13 @@ unset __conda_setup
 PS1='\u:\[\033[01;34m\]\w\[\033[00m\]\$ '
 
 # FZF
+export PATH="$HOME/gems/bin:$PATH"
 export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 # clean
 alias clean='rm *~'
 
-
+# SNAP packages
+export PATH="/snap/bin:$PATH"
 
