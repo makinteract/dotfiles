@@ -143,7 +143,7 @@ export FZF_DEFAULT_COMMAND="rg --files --hidden --follow --glob '!.git'"
 [ -f $HOME/.fzf.bash ] && source $HOME/.fzf.bash
 
 # clean
-alias clean='rm *~'
+alias clean='find . -type f \( -iname "*~" \) -delete'
 
 # SNAP packages
 export PATH="/snap/bin:$PATH"

@@ -6,7 +6,7 @@ SETUVAR Z_DATA:/home/andrea/\x2elocal/share/z/data
 SETUVAR Z_DATA_DIR:/home/andrea/\x2elocal/share/z
 SETUVAR Z_EXCLUDE:/home/andrea
 SETUVAR __fish_initialized:3100
-SETUVAR _fish_abbr_clean:rm\x20\x2a\x7e
+SETUVAR _fish_abbr_clean:find\x20\x2e\x20\x2dtype\x20f\x20\x5c\x28\x20\x2diname\x20\x22\x2a\x7e\x22\x20\x5c\x29\x20\x2ddelete
 SETUVAR _fish_abbr_gitl:git\x20log\x20\x2d\x2dpretty\x3doneline
 SETUVAR fish_color_autosuggestion:586e75
 SETUVAR fish_color_cancel:\x2dr
