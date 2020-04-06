@@ -5,6 +5,7 @@
 " Prerequisistes
 " 1) FZF: https://github.com/junegunn/fzf
 " 2) riprep: https://github.com/BurntSushi/ripgrep
+"   in my case I did: sudo snap install ripgrep --classic
 " 3) NertFont (patched): https://www.nerdfonts.com/font-downloads
 " 4) Exuberant ctags: http://ctags.sourceforge.net
 " 5) YouCompleteMe: depends on YCM https://vimawesome.com/plugin/youcompleteme#installation
