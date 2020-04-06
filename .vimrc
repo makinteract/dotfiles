@@ -99,7 +99,8 @@ Plug 'junegunn/fzf.vim'
 Plug 'ap/vim-css-color'
 
 " Syntax
-Plug 'scrooloose/syntastic'
+"Plug 'scrooloose/syntastic'
+Plug 'w0rp/ale'
 
 " Coloring parenthesis
 Plug 'kien/rainbow_parentheses.vim'
@@ -116,6 +117,11 @@ Plug 'ryanoasis/vim-devicons'
 " Change the font size <Leader><Leader> and the + or - multiple times
 Plug 'drmikehenry/vim-fontsize'
 
+" Git support
+Plug 'tpope/vim-fugitive'
+
+" Tagbar
+Plug 'majutsushi/tagbar'
 
 " Initialize plugin system
 call plug#end()
@@ -279,17 +285,17 @@ command! -bang -nargs=* Rg call fzf#vim#grep("rg --column --line-number --no-hea
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntax
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+"set statusline+=%#warningmsg#
+"set statusline+=%{SyntasticStatuslineFlag()}
+"set statusline+=%*
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-let g:syntastic_quiet_messages = { "type": "style"}
+"let g:syntastic_always_populate_loc_list = 1
+"let g:syntastic_auto_loc_list = 1
+"let g:syntastic_check_on_open = 1
+"let g:syntastic_check_on_wq = 0
+"let g:syntastic_quiet_messages = { "type": "style"}
 
-let g:syntastic_quiet_messages = { "level": "warnings" }
+"let g:syntastic_quiet_messages = { "level": "warnings" }
 "let g:syntastic_python_pylint_quiet_messages = { "level" : [] }
 
 " Rainbow parenthesis defaults
@@ -415,8 +421,38 @@ nnoremap <leader><Space> :cd %:p:h
 
 
 
-" Tab menu expanded 
+" Tab menu expanded
 set wildmenu                " Hitting TAB in command mode will
 set wildchar=<TAB>          "   show possible completions.
 set wildmode=list:longest
 set wildignore+=*.DS_STORE,*~:
+
+
+" Resize splits in all tabs upon window resize
+" https://vi.stackexchange.com/a/206
+autocmd VimResized * Tabdo wincmd =
+
+" Use F2 to highlight extra white space
+set lcs+=space:·
+nmap <F2> :set invlist<CR>
+imap <F2> <ESC>:set invlist<CR>a
+
+
+" Use K to show vim documentation in preview window
+nnoremap <silent> K :call <SID>show_documentation()<CR>
+
+function! s:show_documentation()
+  if (index(['vim','help'], &filetype) >= 0)
+    execute 'h '.expand('<cword>')
+  else
+    call CocAction('doHover')
+  endif
+endfunction
+
+
+"Syntax
+"let g:syntastic_python_checkers = ['pylint']
+"let g:syntastic_javascript_checkers = ['jsl']
+
+" Tagbar F8
+nmap <F8> :TagbarToggle<CR>
