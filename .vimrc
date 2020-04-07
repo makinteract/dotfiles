@@ -130,9 +130,9 @@ Plug 'alvan/vim-closetag'
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
 
 " Language suppor
-Plug 'sheerun/vim-polyglot'
+"Plug 'sheerun/vim-polyglot'
 
-Plug 'pangloss/vim-javascript'
+"Plug 'pangloss/vim-javascript'
 Plug 'elzr/vim-json'
 "Plug 'jceb/vim-orgmode'
 Plug 'sophacles/vim-processing'
@@ -148,9 +148,6 @@ Plug 'scrooloose/nerdcommenter'
 
 " CSS colors
 Plug 'ap/vim-css-color'
-
-" Syntax
-"Plug 'scrooloose/syntastic'
 
 " Coloring parenthesis
 Plug 'kien/rainbow_parentheses.vim'
@@ -279,29 +276,51 @@ nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" :
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Syntax
+" Syntax and Language support
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
-"set statusline+=%#warningmsg#
-"set statusline+=%{SyntasticStatuslineFlag()}
-"set statusline+=%*
+" Language support 
+let g:processing_fold = 1
 
-"let g:syntastic_always_populate_loc_list = 1
-"let g:syntastic_auto_loc_list = 1
-"let g:syntastic_check_on_open = 1
-"let g:syntastic_check_on_wq = 0
-"let g:syntastic_quiet_messages = { "type": "style"}
+" Syntax
+let g:ycm_register_as_syntastic_checker = 1 "default 1
+let g:Show_diagnostics_ui = 1 "default 1
 
-"let g:syntastic_quiet_messages = { "level": "warnings" }
-"let g:syntastic_python_pylint_quiet_messages = { "level" : [] }
+"will put icons in Vim's gutter on lines that have a diagnostic set.
+"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
+"highlighting
+let g:ycm_enable_diagnostic_signs = 1
+let g:ycm_enable_diagnostic_highlighting = 1 " changed 
+let g:ycm_always_populate_location_list = 1 "default 0
+let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
 
-"let g:syntastic_javascript_checkers = ["standard"]
+let g:ycm_complete_in_strings = 1 "default 1
+let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
+let g:ycm_path_to_python_interpreter = '' "default ''
+
+let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
+let g:ycm_server_log_level = 'info' "default info
+
+" Extra configurations
+"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
+"let g:ycm_confirm_extra_conf = 1
+
+let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
+let g:ycm_filetype_whitelist = { '*': 1 }
+
+" F9: Force check diagnostic
+nnoremap <F9> :YcmForceCompileAndDiagnostics <CR>
+
+" Autocmplete
+" C-Space: Invike completion
+let g:ycm_key_invoke_completion = '<C-Space>'
+" REF: https://medium.com/parallel-thinking/actually-great-vim-javascript-completion-eaefa1cb443d
+autocmd FileType javascript nmap <buffer> <C-]> :YcmCompleter GoTo<CR>
 
 " Rainbow parenthesis defaults
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -463,46 +482,6 @@ while c <= 'z'
 endw
 
 set timeout ttimeoutlen=50
-
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Language support +  Sytanx check + YouCompleteMe 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Language support 
-let g:processing_fold = 1
-
-" Syntax
-let g:ycm_register_as_syntastic_checker = 1 "default 1
-let g:Show_diagnostics_ui = 1 "default 1
-
-"will put icons in Vim's gutter on lines that have a diagnostic set.
-"Turning this off will also turn off the YcmErrorLine and YcmWarningLine
-"highlighting
-let g:ycm_enable_diagnostic_signs = 1
-let g:ycm_enable_diagnostic_highlighting = 1 " changed 
-let g:ycm_always_populate_location_list = 1 "default 0
-let g:ycm_open_loclist_on_ycm_diags = 1 "default 1
-
-let g:ycm_complete_in_strings = 1 "default 1
-let g:ycm_collect_identifiers_from_tags_files = 0 "default 0
-let g:ycm_path_to_python_interpreter = '' "default ''
-
-let g:ycm_server_use_vim_stdout = 0 "default 0 (logging to console)
-let g:ycm_server_log_level = 'info' "default info
-
-" Extra configurations
-"let g:ycm_global_ycm_extra_conf = '~/.ycm_extra_conf.py'  "where to search for .ycm_extra_conf.py if not found
-"let g:ycm_confirm_extra_conf = 1
-
-let g:ycm_goto_buffer_command = 'same-buffer' "[ 'same-buffer', 'horizontal-split', 'vertical-split', 'new-tab' ]
-let g:ycm_filetype_whitelist = { '*': 1 }
-
-" F9: Force check diagnostic
-nnoremap <F9> :YcmForceCompileAndDiagnostics <CR>
-
-" Autocmplete
-" C-Space: Invike completion
-let g:ycm_key_invoke_completion = '<C-Space>'
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""
