@@ -148,3 +148,5 @@ alias clean='find . -type f \( -iname "*~" \) -delete'
 # SNAP packages
 export PATH="/snap/bin:$PATH"
 
+# Processing path
+export PATH="/home/andrea/Applications/processing/processing-java:$PATH"
