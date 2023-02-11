@@ -1,4 +1,4 @@
-# Personal dotiles
+# Personal dotfiles
 
 Quick installation:
 
